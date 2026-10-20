@@ -1,0 +1,1403 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Một bó hoa nhỏ tặng cậu nhân ngày 20/10.">
+<meta property="og:title" content="Có thư cho cậu nè 💌">
+<meta property="og:description" content="Mở phong thư để nhận hoa 20/10 nha!">
+<meta name="theme-color" content="#fbdfe8">
+<style>
+  :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  body { margin: 0; }
+  img { max-width: 100%; }
+</style>
+<title>Thiệp hoa 20/10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500&family=Cormorant+Garamond:ital,wght@0,600;1,500&family=Dancing+Script:wght@600&display=swap">
+<style>
+  /* Layout: vườn hoa mờ phía sau; phong thư giữa màn hình → mở ra thành hai cột: tranh màu nước | lá thư kẻ dòng */
+  :root {
+    --blush: #fbdfe8;
+    --blush-2: #f5c6d4;
+    --paper: #fff7f9;
+    --petal: #f2b6c4;
+    --rose: #c24d70;
+    --rose-light: #f3a3b8;
+    --ink: #4b2733;
+    --muted: #8a6070;
+    --line: #f4d0da;
+    --env-back: #eebccb;
+    --env-front: #f8d5dd;
+    --env-flap: #f2c3cf;
+    --display: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+    --body: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --script: 'Dancing Script', 'Brush Script MT', 'Segoe Script', cursive;
+    color-scheme: light;
+  }
+  [hidden] { display: none !important; }
+  html, body { height: 100%; }
+  body {
+    background-color: var(--blush);
+    background-image: linear-gradient(180deg, var(--paper) 0%, var(--blush) 45%, var(--blush-2) 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    overflow-x: hidden;
+  }
+  #garden {
+    position: fixed; left: -3%; top: -3%; width: 106%; height: 106%;
+    pointer-events: none; z-index: 0;
+    filter: blur(7px) saturate(1.05);
+    opacity: .85;
+    animation: drift 26s ease-in-out infinite alternate;
+  }
+  @keyframes drift { to { transform: translate(-1.2%, -0.8%) scale(1.02); } }
+  #bokeh, #sky { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  #sky { z-index: 2; }
+  .page {
+    position: relative; z-index: 1;
+    min-height: 100%;
+    display: grid; place-items: center;
+    padding-block: 32px;
+    box-sizing: border-box;
+  }
+  .eyebrow { margin: 0; font-size: .76rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ---------- Phong thư ---------- */
+  .intro { display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center; }
+  .intro > * { animation: enter .9s cubic-bezier(.2, .8, .2, 1) both; }
+  .intro > :nth-child(2) { animation-delay: .12s; }
+  .intro > :nth-child(3) { animation-delay: .24s; }
+  .intro > :nth-child(4) { animation-delay: .5s; }
+  @keyframes enter { from { opacity: 0; transform: translateY(14px); } }
+  .intro-title {
+    margin: 0; font-family: var(--display); font-style: italic; font-weight: 500;
+    font-size: clamp(2.1rem, 7vw, 3.3rem); line-height: 1.08; text-wrap: balance; max-width: 14ch;
+    text-shadow: 0 1px 18px rgba(255, 250, 249, .9);
+  }
+  .hint { margin: 0; font-size: .9rem; color: var(--muted); text-shadow: 0 1px 10px rgba(255, 250, 249, .9); }
+  .intro .eyebrow { text-shadow: 0 1px 10px rgba(255, 250, 249, .9); }
+  .intro.leaving { animation: leave .7s ease forwards; }
+  .intro.leaving > * { animation: none; }
+  @keyframes leave { to { opacity: 0; transform: scale(1.06); filter: blur(4px); } }
+
+  .env-wrap { margin-top: 36px; animation: float 5s ease-in-out infinite; }
+  @keyframes float { 50% { transform: translateY(-8px); } }
+  .envelope {
+    position: relative; display: block;
+    width: min(340px, 82vw); max-width: 100%; aspect-ratio: 3 / 2;
+    border: 0; padding: 0; background: none; cursor: pointer;
+    perspective: 900px;
+    filter: drop-shadow(0 18px 22px rgba(194, 77, 112, .22));
+    animation: nudge 4.5s ease-in-out 1.5s infinite, glow 2.6s ease-in-out infinite alternate;
+    transition: transform .3s ease;
+  }
+  .envelope:hover { transform: translateY(-4px) rotate(-1.2deg); }
+  .envelope:focus-visible { outline: 2px dashed var(--rose); outline-offset: 10px; border-radius: 8px; }
+  .envelope.open { animation: none; transform: none; cursor: default; filter: drop-shadow(0 18px 22px rgba(194, 77, 112, .22)) drop-shadow(0 0 30px rgba(255, 255, 255, .95)); }
+  @keyframes nudge {
+    0%, 82%, 100% { transform: rotate(0); }
+    86% { transform: rotate(-2.5deg); } 90% { transform: rotate(2deg); } 94% { transform: rotate(-1deg); }
+  }
+  @keyframes glow {
+    from { filter: drop-shadow(0 18px 22px rgba(194, 77, 112, .22)) drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
+    to { filter: drop-shadow(0 18px 22px rgba(194, 77, 112, .22)) drop-shadow(0 0 22px rgba(255, 255, 255, .95)); }
+  }
+  .env-back { position: absolute; inset: 0; background: var(--env-back); border-radius: 6px; }
+  .env-letter {
+    position: absolute; left: 7%; right: 7%; top: 6%; height: 82%;
+    background: var(--paper); border-radius: 3px; z-index: 1;
+    display: flex; justify-content: center; padding-top: 9%; box-sizing: border-box;
+    font-family: var(--script); font-size: 1.35rem; color: var(--rose);
+    transition: transform .9s cubic-bezier(.2, .8, .2, 1) .45s;
+  }
+  .env-front {
+    position: absolute; inset: 0; z-index: 2; border-radius: 6px;
+    background: linear-gradient(to top, var(--env-front), var(--paper) 160%);
+    clip-path: polygon(0 0, 50% 54%, 100% 0, 100% 100%, 0 100%);
+  }
+  .env-flap {
+    position: absolute; left: 0; right: 0; top: 0; height: 58%; z-index: 3;
+    background: linear-gradient(to bottom, var(--env-flap), var(--env-back));
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: 50% 0;
+    transition: transform .65s cubic-bezier(.5, 0, .3, 1), z-index 0s linear .32s;
+  }
+  .env-shine { position: absolute; inset: 0; z-index: 5; border-radius: 6px; pointer-events: none; overflow: hidden; }
+  .env-shine::after {
+    content: ""; position: absolute; top: -20%; bottom: -20%; width: 30%; left: -40%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .55), transparent);
+    transform: skewX(-18deg);
+    animation: shine 3.6s ease-in-out 1s infinite;
+  }
+  @keyframes shine { 0% { left: -40%; } 45%, 100% { left: 130%; } }
+  .envelope.open .env-shine { display: none; }
+  .env-to {
+    position: absolute; left: 8%; bottom: 12%; z-index: 3;
+    font-family: var(--script); font-size: 1.25rem; color: var(--rose); text-align: left; line-height: 1.2;
+  }
+  .postmark {
+    position: absolute; right: 7%; bottom: 10%; z-index: 3;
+    width: 62px; height: 62px; border-radius: 50%;
+    border: 1.5px dashed var(--rose); opacity: .6;
+    display: grid; place-items: center; text-align: center;
+    font-size: .55rem; letter-spacing: .1em; line-height: 1.35; color: var(--rose);
+    transform: rotate(-14deg);
+  }
+  .seal {
+    position: absolute; left: 50%; top: 58%; z-index: 4;
+    width: 58px; height: 58px; border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at 35% 30%, #e07f9b, var(--rose) 62%, #a3395a);
+    color: var(--paper); font-family: var(--display); font-weight: 600;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: .95;
+    box-shadow: 0 2px 0 rgba(75, 39, 51, .12), inset 0 0 0 4px rgba(255, 255, 255, .12);
+    transition: opacity .35s ease, transform .35s ease;
+  }
+  .seal b { font-size: 1.15rem; font-weight: 600; }
+  .seal i { font-style: normal; font-size: .85rem; border-top: 1px solid rgba(255, 250, 249, .6); padding-top: 1px; }
+  .envelope.open .env-flap { transform: rotateX(180deg); z-index: 0; }
+  .envelope.open .seal { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+  .envelope.open .env-letter { transform: translateY(-62%) scale(1.04); }
+
+  /* ---------- Tranh + lá thư ---------- */
+  .stage {
+    width: 100%; max-width: 1080px;
+    display: grid; gap: 28px; align-items: center;
+  }
+  @media (min-width: 860px) {
+    .stage { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; }
+  }
+  .bouquet {
+    position: relative;
+    width: 100%; max-width: 460px; aspect-ratio: 4 / 5; justify-self: center;
+    animation: enter 1s ease both;
+  }
+  .bouquet::before {
+    content: ""; position: absolute; z-index: 2; top: -11px; left: 50%;
+    width: 96px; height: 26px; margin-left: -48px;
+    background: rgba(243, 182, 198, .72);
+    transform: rotate(-4deg);
+    box-shadow: 0 1px 2px rgba(75, 39, 51, .08);
+  }
+  #flowers {
+    display: block; width: 100%; height: 100%;
+    background: #fff7f8;
+    border-radius: 3px;
+    transform: rotate(-1.2deg);
+    box-shadow: 0 2px 6px rgba(75, 39, 51, .06), 0 26px 50px -24px rgba(194, 77, 112, .5);
+  }
+
+  .letter {
+    position: relative; min-width: 0; width: 100%; max-width: 34rem; justify-self: center; box-sizing: border-box;
+    background: var(--paper);
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(75, 39, 51, .05), 0 22px 44px -22px rgba(194, 77, 112, .45);
+    padding: 28px clamp(20px, 5vw, 40px) 22px;
+    transform-origin: 50% 0;
+    animation: unfold 1.1s cubic-bezier(.2, .8, .2, 1) .5s both;
+  }
+  .letter::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(194, 77, 112, .12), transparent);
+  }
+  @keyframes unfold {
+    from { opacity: 0; transform: perspective(900px) rotateX(-75deg) translateY(-12px); }
+    60% { opacity: 1; }
+  }
+  .letter h2 {
+    margin: 8px 0 14px; font-family: var(--display); font-weight: 600;
+    font-size: clamp(2.1rem, 6vw, 2.7rem); line-height: 1.1; text-wrap: balance;
+    color: var(--rose);
+    background: linear-gradient(100deg, var(--rose) 42%, var(--rose-light) 50%, var(--rose) 58%);
+    background-size: 260% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 5.5s ease-in-out 2.2s infinite;
+  }
+  @keyframes shimmer { 0% { background-position: 100% 0; } 45%, 100% { background-position: 0 0; } }
+  .typed {
+    --row: 1.85rem;
+    min-height: calc(var(--row) * 7);
+    line-height: var(--row);
+    font-size: 1rem;
+    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(var(--row) - 1px), var(--line) calc(var(--row) - 1px), var(--line) var(--row));
+    cursor: pointer;
+  }
+  .typed p { margin: 0 0 var(--row); }
+  .typed p:last-child { margin-bottom: 0; }
+  .typed .ch { animation: ink .35s ease both; }
+  @keyframes ink { from { opacity: 0; filter: blur(3px); } }
+  .caret {
+    display: inline-block; width: 2px; height: 1.05em; margin-left: 2px;
+    background: var(--rose); vertical-align: -0.18em;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .skip { margin: 10px 0 0; font-size: .78rem; color: var(--muted); }
+  .sign-wrap { text-align: right; margin-top: 14px; opacity: 0; transform: translateY(6px); transition: opacity .9s ease, transform .9s ease; }
+  .sign-wrap.show { opacity: 1; transform: none; }
+  .sign-pre { margin: 0; font-size: .9rem; color: var(--muted); }
+  .sign {
+    margin: 2px 0 0; font-family: var(--script); font-size: 2.6rem; line-height: 1.1; color: var(--rose);
+    display: inline-block;
+    clip-path: inset(0 100% 0 0);
+  }
+  .sign-wrap.show .sign { animation: write 1.4s cubic-bezier(.6, .1, .3, 1) .3s forwards; }
+  @keyframes write { to { clip-path: inset(0 -10% 0 0); } }
+  .letter-foot {
+    display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; justify-content: space-between;
+    margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line);
+  }
+  .fact { margin: 0; flex: 1 1 14rem; font-size: .8rem; line-height: 1.5; color: var(--muted); }
+  .replay {
+    font: 500 .88rem var(--body); color: var(--rose);
+    background: transparent; border: 1px solid var(--petal); border-radius: 999px;
+    padding: 9px 16px; cursor: pointer; transition: background .2s ease, transform .2s ease;
+  }
+  .replay:hover { background: var(--blush); transform: translateY(-1px); }
+  .replay:focus-visible { outline: 2px solid var(--rose); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .sign { clip-path: none; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="garden" aria-hidden="true"></canvas>
+<canvas id="bokeh" aria-hidden="true"></canvas>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<main class="page">
+  <section class="intro" id="intro">
+    <p class="eyebrow">20 · 10 · Ngày Phụ nữ Việt Nam</p>
+    <h1 class="intro-title">Có thư cho cậu nè</h1>
+    <div class="env-wrap">
+      <button class="envelope" id="envelope" type="button" aria-label="Mở thiệp chúc mừng 20/10">
+        <span class="env-back"></span>
+        <span class="env-letter">Chúc mừng 20/10</span>
+        <span class="env-front"></span>
+        <span class="env-flap"></span>
+        <span class="env-to">Gửi cậu</span>
+        <span class="postmark">20 · 10<br>2026</span>
+        <span class="seal"><b>20</b><i>10</i></span>
+        <span class="env-shine"></span>
+      </button>
+    </div>
+    <p class="hint">Chạm vào phong thư để mở</p>
+  </section>
+
+  <section class="stage" id="stage" hidden>
+    <div class="bouquet">
+      <canvas id="flowers" role="img" aria-label="Bức tranh bó hoa hồng, tulip và hoa cúc, vẽ nét mực rồi tô màu nước"></canvas>
+    </div>
+    <article class="letter">
+      <p class="eyebrow">Thứ Ba, 20 tháng 10 năm 2026</p>
+      <h2>Chúc mừng ngày 20/10!</h2>
+      <div class="typed" id="typed" aria-hidden="true" title="Chạm để đọc nhanh"></div>
+      <div class="sr" id="fulltext"></div>
+      <p class="skip" id="skip">Chạm vào lá thư để đọc nhanh</p>
+      <div class="sign-wrap" id="signWrap">
+        <p class="sign-pre">Ký tên,</p>
+        <p class="sign">Lâm</p>
+      </div>
+      <div class="letter-foot">
+        <p class="fact">20/10 là ngày thành lập Hội Liên hiệp Phụ nữ Việt Nam, năm 1930.</p>
+        <button class="replay" id="replay" type="button">Vẽ lại bức tranh</button>
+      </div>
+    </article>
+  </section>
+</main>
+
+<script>
+(function () {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s) => document.querySelector(s);
+  const TAU = Math.PI * 2;
+
+  const WISH = [
+    '20/10 vui vẻ nha!',
+    'Chúc cậu luôn khỏe, cười nhiều, làm gì cũng thuận lợi. Bận cỡ nào cũng nhớ dành thời gian cho bản thân.',
+    'Tặng cậu bó hoa nhỏ, không héo được nên cứ giữ lâu lâu.'
+  ].map((w) => w.normalize('NFC'));
+  $('#fulltext').textContent = WISH.join(' ') + ' Ký tên, Lâm.';
+
+  const clamp01 = (v) => Math.max(0, Math.min(1, v));
+  const outCubic = (t) => 1 - Math.pow(1 - t, 3);
+  function rng(seed) {
+    let s = (seed * 2654435761) >>> 0 || 1;
+    return () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967296; };
+  }
+  function cubic(a, b, c, d, t) {
+    const u = 1 - t;
+    return {
+      x: u * u * u * a.x + 3 * u * u * t * b.x + 3 * u * t * t * c.x + t * t * t * d.x,
+      y: u * u * u * a.y + 3 * u * u * t * b.y + 3 * u * t * t * c.y + t * t * t * d.y
+    };
+  }
+  function cubicD(a, b, c, d, t) {
+    const u = 1 - t;
+    return {
+      x: 3 * u * u * (b.x - a.x) + 6 * u * t * (c.x - b.x) + 3 * t * t * (d.x - c.x),
+      y: 3 * u * u * (b.y - a.y) + 6 * u * t * (c.y - b.y) + 3 * t * t * (d.y - c.y)
+    };
+  }
+  const P = (x, y) => ({ x, y });
+  function bez(a, b, c, d, n) { const o = []; for (let i = 0; i <= n; i++) o.push(cubic(a, b, c, d, i / n)); return o; }
+  function chain(start, segs, n) {
+    let pts = [start], cur = start;
+    for (const [c1, c2, e] of segs) { const p = bez(cur, c1, c2, e, n); p.shift(); pts = pts.concat(p); cur = e; }
+    return pts;
+  }
+  function tf(pts, C, rot, sc) {
+    sc = sc || 1;
+    const c = Math.cos(rot), s = Math.sin(rot);
+    return pts.map((p) => P(C.x + (p.x * c - p.y * s) * sc, C.y + (p.x * s + p.y * c) * sc));
+  }
+  function scalePts(pts, C, k) { return pts.map((p) => P(C.x + (p.x - C.x) * k, C.y + (p.y - C.y) * k)); }
+  function centroid(pts) { let x = 0, y = 0; pts.forEach((p) => { x += p.x; y += p.y; }); return P(x / pts.length, y / pts.length); }
+  function circlePts(C, n, rf) { const o = []; for (let i = 0; i <= n; i++) { const a = i / n * TAU; const r = rf(a); o.push(P(C.x + Math.cos(a) * r, C.y + Math.sin(a) * r)); } return o; }
+  function wobble(pts, amp, seed) {
+    const r = rng(seed), n = pts.length;
+    const f1 = 2 + r() * 3, f2 = 7 + r() * 6, p1 = r() * TAU, p2 = r() * TAU;
+    return pts.map((p, i) => {
+      const a = pts[Math.max(0, i - 1)], b = pts[Math.min(n - 1, i + 1)];
+      let nx = -(b.y - a.y), ny = b.x - a.x;
+      const L = Math.hypot(nx, ny) || 1; nx /= L; ny /= L;
+      const s = i / (n - 1 || 1);
+      const o = amp * (Math.sin(s * f1 * 2 + p1) * 0.6 + Math.sin(s * f2 + p2) * 0.4);
+      return P(p.x + nx * o, p.y + ny * o);
+    });
+  }
+  function polyPath(polys) {
+    const p = new Path2D();
+    for (const pts of polys) { pts.forEach((q, i) => (i ? p.lineTo(q.x, q.y) : p.moveTo(q.x, q.y))); p.closePath(); }
+    return p;
+  }
+  function bboxOf(list, pad) {
+    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    for (const pts of list) for (const p of pts) { x0 = Math.min(x0, p.x); y0 = Math.min(y0, p.y); x1 = Math.max(x1, p.x); y1 = Math.max(y1, p.y); }
+    return { x: x0 - pad, y: y0 - pad, w: x1 - x0 + pad * 2, h: y1 - y0 + pad * 2 };
+  }
+
+  /* ================= Vườn hoa mờ phía sau ================= */
+  const garden = $('#garden');
+  const GARDEN_COLORS = ['#f6a9bd', '#f9c7d3', '#f4b6c6', '#fbd0dc', '#ee8aa6', '#fde7ee', '#f7c1cf', '#e8a0b8', '#e6cdf2', '#ffffff', '#fbd6c4'];
+  function drawGarden() {
+    const gw = garden.clientWidth, gh = garden.clientHeight;
+    if (!gw) return;
+    garden.width = Math.round(gw); garden.height = Math.round(gh);
+    const g = garden.getContext('2d');
+    g.clearRect(0, 0, gw, gh);
+    const haze = g.createLinearGradient(0, gh * 0.3, 0, gh);
+    haze.addColorStop(0, 'rgba(248,200,216,0)');
+    haze.addColorStop(0.6, 'rgba(242,182,202,.35)');
+    haze.addColorStop(1, 'rgba(176,206,182,.5)');
+    g.fillStyle = haze; g.fillRect(0, 0, gw, gh);
+    const r = rng(2026);
+    const scale = 0.6 + 0.4 * Math.min(1, gw / 1000);
+    const N = Math.round(gw * gh / 6500);
+    const list = [];
+    for (let i = 0; i < N; i++) list.push({ d: r(), x: r() * gw, j: r(), c: GARDEN_COLORS[(r() * GARDEN_COLORS.length) | 0], n: 5 + ((r() * 4) | 0), rot: r() * TAU, kind: r() });
+    list.sort((a, b) => a.d - b.d);
+    for (const f of list) {
+      const y = gh * (0.36 + 0.64 * Math.pow(f.d, 0.85)) + (f.j - 0.5) * gh * 0.05;
+      const sz = (10 + 48 * f.d) * scale;
+      // thân + lá
+      g.strokeStyle = 'rgba(104,152,118,' + (0.45 + 0.4 * f.d) + ')';
+      g.lineWidth = 1 + 2.6 * f.d;
+      g.beginPath(); g.moveTo(f.x, y);
+      g.quadraticCurveTo(f.x + (f.j - 0.5) * 30, (y + gh) / 2, f.x + (f.j - 0.5) * 40, gh + 10);
+      g.stroke();
+      g.fillStyle = 'rgba(124,172,136,' + (0.45 + 0.4 * f.d) + ')';
+      for (let k = 0; k < 2; k++) {
+        g.save();
+        g.translate(f.x + (k ? 6 : -6) * f.d, y + sz * (1.4 + k * 0.9));
+        g.rotate((k ? 1 : -1) * (0.7 + f.j * 0.5));
+        g.beginPath(); g.ellipse(sz * 0.45, 0, sz * 0.5, sz * 0.17, 0, 0, TAU); g.fill();
+        g.restore();
+      }
+      g.save();
+      g.translate(f.x, y);
+      g.globalAlpha = 0.65 + 0.35 * f.d;
+      g.fillStyle = f.c;
+      if (f.kind < 0.2) {
+        // tulip
+        g.rotate((f.j - 0.5) * 0.4);
+        g.beginPath();
+        g.moveTo(0, sz * 0.4);
+        g.bezierCurveTo(-sz * 0.6, sz * 0.4, -sz * 0.7, -sz * 0.3, -sz * 0.45, -sz * 0.8);
+        g.lineTo(-sz * 0.15, -sz * 0.45); g.lineTo(0, -sz * 0.9); g.lineTo(sz * 0.15, -sz * 0.45); g.lineTo(sz * 0.45, -sz * 0.8);
+        g.bezierCurveTo(sz * 0.7, -sz * 0.3, sz * 0.6, sz * 0.4, 0, sz * 0.4);
+        g.fill();
+      } else if (f.kind < 0.45) {
+        // hồng
+        g.beginPath(); g.arc(0, 0, sz * 0.62, 0, TAU); g.fill();
+        g.strokeStyle = 'rgba(194,77,112,.35)'; g.lineWidth = 1.5;
+        for (let k = 0; k < 3; k++) { g.beginPath(); g.arc(0, 0, sz * (0.18 + k * 0.15), f.rot + k, f.rot + k + 3.6); g.stroke(); }
+      } else {
+        // hoa cánh
+        for (let k = 0; k < f.n; k++) {
+          g.save(); g.rotate(f.rot + k * TAU / f.n);
+          g.beginPath(); g.ellipse(sz * 0.42, 0, sz * 0.44, sz * 0.2, 0, 0, TAU); g.fill();
+          g.restore();
+        }
+        g.fillStyle = f.c === '#f7e2a5' ? '#e7a25a' : '#f4cd74';
+        g.beginPath(); g.arc(0, 0, sz * 0.16, 0, TAU); g.fill();
+      }
+      g.restore();
+    }
+    // hoa bi trắng lấm tấm
+    g.fillStyle = 'rgba(255,255,255,.85)';
+    for (let i = 0; i < N * 1.5; i++) {
+      const d = r();
+      g.beginPath(); g.arc(r() * gw, gh * (0.45 + 0.55 * d), 1.2 + 2.5 * d, 0, TAU); g.fill();
+    }
+    g.fillStyle = 'rgba(250,200,216,.22)';
+    g.fillRect(0, 0, gw, gh);
+  }
+  drawGarden();
+
+  /* ================= Tranh màu nước ================= */
+  const fc = $('#flowers');
+  const fx = fc.getContext('2d');
+  const INK = '#5f2f40';
+  const PAPER = '#fff7f8';
+  const PALS = [
+    { light: [247, 186, 202], mid: [236, 138, 166], deep: [205, 82, 120] },
+    { light: [250, 206, 180], mid: [240, 160, 128], deep: [214, 112, 86] },
+    { light: [250, 222, 231], mid: [240, 188, 207], deep: [222, 140, 170] },
+    { light: [224, 202, 238], mid: [190, 154, 220], deep: [150, 106, 190] },
+    { light: [241, 162, 184], mid: [222, 104, 140], deep: [180, 56, 96] }
+  ];
+  const FLOWERS = [
+    { k: 't', x: -0.33, y: 0.25, s: 0.095, p: 3, tilt: -0.28 },
+    { k: 'r', x: 0.02,  y: 0.18, s: 0.13,  p: 2 },
+    { k: 'c', x: 0.17,  y: 0.29, s: 0.14,  p: 0, n: 8 },
+    { k: 'r', x: -0.15, y: 0.30, s: 0.13,  p: 4 },
+    { k: 't', x: 0.33,  y: 0.41, s: 0.105, p: 1, tilt: 0.3 },
+    { k: 'c', x: -0.31, y: 0.43, s: 0.11,  p: 1, n: 7 },
+    { k: 'r', x: -0.04, y: 0.45, s: 0.115, p: 0 },
+    { k: 'c', x: 0.19,  y: 0.49, s: 0.10,  p: 3, n: 6 }
+  ];
+  const SPRIGS = [{ x: -0.42, y: 0.31 }, { x: 0.42, y: 0.25 }, { x: 0.28, y: 0.1 }, { x: -0.2, y: 0.08 }];
+
+  let FW = 0, FH = 0, DPR = 1;
+  let paperC, inkC, ik, washC, wk, items = [], lastEnd = 0;
+  let t0 = 0, running = false, celebrated = false, started = false;
+
+  function layer() {
+    const c = document.createElement('canvas');
+    c.width = Math.round(FW * DPR); c.height = Math.round(FH * DPR);
+    const x = c.getContext('2d');
+    x.setTransform(DPR, 0, 0, DPR, 0, 0);
+    return [c, x];
+  }
+
+  function wcFill(c, poly, col, seed, spread, strength) {
+    strength = strength == null ? 1 : strength;
+    const r = rng(seed);
+    const C = centroid(poly);
+    for (let L = 0; L < 6; L++) {
+      const f1 = 2 + ((r() * 4) | 0), f2 = 5 + ((r() * 5) | 0), p1 = r() * TAU, p2 = r() * TAU;
+      const grow = (r() - 0.35) * spread;
+      c.beginPath();
+      poly.forEach((p, i) => {
+        const dx = p.x - C.x, dy = p.y - C.y;
+        const a = Math.atan2(dy, dx), d = Math.hypot(dx, dy) || 1;
+        const o = grow + spread * 0.5 * (Math.sin(a * f1 + p1) * 0.6 + Math.sin(a * f2 + p2) * 0.4);
+        const k = Math.max(0, (d + o) / d);
+        const x = C.x + dx * k, y = C.y + dy * k;
+        if (i) c.lineTo(x, y); else c.moveTo(x, y);
+      });
+      c.closePath();
+      c.fillStyle = 'rgba(' + col.join(',') + ',' + (0.12 + r() * 0.07) * strength + ')';
+      c.fill();
+    }
+    c.beginPath();
+    poly.forEach((p, i) => (i ? c.lineTo(p.x, p.y) : c.moveTo(p.x, p.y)));
+    c.closePath();
+    c.strokeStyle = 'rgba(' + col.join(',') + ',' + 0.25 * strength + ')';
+    c.lineWidth = Math.max(1, spread * 0.35); c.lineJoin = 'round';
+    c.stroke();
+  }
+  function wcStroke(c, pts, col, width, seed) {
+    const r = rng(seed);
+    c.lineCap = 'round'; c.lineJoin = 'round';
+    for (let L = 0; L < 4; L++) {
+      const ox = (r() - 0.5) * width * 0.6, oy = (r() - 0.5) * width * 0.6;
+      c.beginPath();
+      pts.forEach((p, i) => (i ? c.lineTo(p.x + ox, p.y + oy) : c.moveTo(p.x + ox, p.y + oy)));
+      c.strokeStyle = 'rgba(' + col.join(',') + ',' + (0.16 + r() * 0.08) + ')';
+      c.lineWidth = width * (0.7 + r() * 0.6);
+      c.stroke();
+    }
+  }
+  function grain(c, poly, col, seed) {
+    const bb = bboxOf([poly], 0);
+    const n = Math.min(140, (bb.w * bb.h) / 80);
+    const r = rng(seed);
+    c.save();
+    c.clip(polyPath([poly]));
+    c.fillStyle = 'rgba(' + col.join(',') + ',.16)';
+    for (let i = 0; i < n; i++) { c.beginPath(); c.arc(bb.x + r() * bb.w, bb.y + r() * bb.h, 0.4 + r() * 0.9, 0, TAU); c.fill(); }
+    c.restore();
+  }
+  function base(c, polys) {
+    c.fillStyle = PAPER;
+    for (const poly of polys) { c.beginPath(); scalePts(poly, centroid(poly), 0.96).forEach((p, i) => (i ? c.lineTo(p.x, p.y) : c.moveTo(p.x, p.y))); c.closePath(); c.fill(); }
+  }
+
+  function mkPath(pts, w) {
+    const cum = [0];
+    for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y));
+    return { pts, cum, len: cum[cum.length - 1], w, drawn: 0, i: 0, last: null, offset: 0 };
+  }
+
+  function makeItem(spec) {
+    const W = FW;
+    const it = Object.assign({ knocked: false, baked: false, inkDone: false }, spec);
+    it.paths = spec.inks.map((pts) => mkPath(pts, spec.w));
+    let off = 0;
+    for (const p of it.paths) { p.offset = off; off += p.len + W * 0.03; }
+    it.inkTotal = Math.max(1, off);
+    it.silPath = spec.sil ? polyPath(spec.sil) : null;
+    const bb = bboxOf(spec.area, W * 0.04);
+    it.bb = bb;
+    const c = document.createElement('canvas');
+    c.width = Math.max(1, Math.ceil(bb.w * DPR)); c.height = Math.max(1, Math.ceil(bb.h * DPR));
+    const x = c.getContext('2d');
+    x.setTransform(DPR, 0, 0, DPR, -bb.x * DPR, -bb.y * DPR);
+    spec.wash(x);
+    it.wc = c;
+    if (!it.center) it.center = P(bb.x + bb.w / 2, bb.y + bb.h / 2);
+    if (!it.revealR) it.revealR = Math.hypot(bb.w, bb.h) / 2;
+    return it;
+  }
+
+  function paperPoly(cx, top, half, wave, H, W) {
+    const L = cx - W * half, R = cx + W * half;
+    let pts = [P(L, top)];
+    const bumps = 6;
+    for (let k = 0; k < bumps; k++) {
+      const x0 = L + (R - L) * (k / bumps), x1 = L + (R - L) * ((k + 1) / bumps);
+      const seg = bez(P(x0, top), P(x0 + (x1 - x0) * 0.3, top - H * wave), P(x0 + (x1 - x0) * 0.7, top - H * wave), P(x1, top), 8);
+      seg.shift(); pts = pts.concat(seg);
+    }
+    const br = P(cx + W * 0.05, H * 0.985), bl = P(cx - W * 0.05, H * 0.985);
+    const s1 = bez(P(R, top), P(R - (R - br.x) * 0.3, top + (br.y - top) * 0.3), P(br.x + (R - br.x) * 0.2, br.y - (br.y - top) * 0.3), br, 14); s1.shift();
+    const s2 = bez(bl, P(bl.x - (bl.x - L) * 0.2, bl.y - (bl.y - top) * 0.3), P(L + (bl.x - L) * 0.3, top + (bl.y - top) * 0.3), P(L, top), 14); s2.shift();
+    return pts.concat(s1, [bl], s2);
+  }
+
+  function roseShape(C, R, rot, seed) {
+    const r = rng(seed);
+    const rf = (a) => R * (0.9 + 0.08 * Math.cos(5 * (a - rot)) + 0.02 * Math.sin(3 * a + seed));
+    const sil = circlePts(C, 64, rf);
+    const inks = [];
+    for (let k = 0; k < 5; k++) {
+      const v0 = rot + Math.PI / 5 + k * TAU / 5 - 0.06, v1 = v0 + TAU / 5 + 0.14;
+      const arc = [];
+      for (let i = 0; i <= 16; i++) { const a = v0 + (v1 - v0) * i / 16; const rr = rf(a) * (1 - 0.05 * Math.pow(Math.sin(Math.PI * i / 16), 2) * 0); arc.push(P(C.x + Math.cos(a) * rr, C.y + Math.sin(a) * rr)); }
+      inks.push(arc);
+    }
+    for (let k = 0; k < 4; k++) {
+      const b = rot + k * TAU / 4 + 0.4 + r() * 0.3;
+      const o = P(C.x + Math.cos(b) * R * 0.07, C.y + Math.sin(b) * R * 0.07);
+      const arc = [];
+      for (let i = 0; i <= 14; i++) { const a = b - 0.95 + 1.9 * i / 14; arc.push(P(o.x + Math.cos(a) * R * 0.66, o.y + Math.sin(a) * R * 0.66)); }
+      inks.push(arc);
+    }
+    const sp = [], th = 2.3 * TAU;
+    for (let i = 0; i <= 80; i++) {
+      const q = i / 80, a = q * th + rot, rr = R * (0.05 + 0.5 * q);
+      sp.push(P(C.x + Math.cos(a) * rr, C.y - R * 0.04 + Math.sin(a) * rr * 0.92));
+    }
+    inks.push(sp);
+    return { sil, inks };
+  }
+
+  function cosmosShape(C, R, n, rot, seed) {
+    const petals = [], inks = [];
+    for (let k = 0; k < n; k++) {
+      const j = Math.sin(k * 12.9898 + seed * 7.1);
+      const a = rot + k * TAU / n + j * 0.05;
+      const len = R * (1 + 0.07 * j);
+      const loc = chain(P(R * 0.12, 0), [
+        [P(R * 0.38, -R * 0.42), P(R * 0.9, -R * 0.36), P(len, -R * 0.1)],
+        [P(len - R * 0.02, -R * 0.05), P(len - R * 0.05, -R * 0.01), P(len - R * 0.08, 0)],
+        [P(len - R * 0.05, R * 0.01), P(len - R * 0.02, R * 0.05), P(len, R * 0.1)],
+        [P(R * 0.9, R * 0.36), P(R * 0.38, R * 0.42), P(R * 0.12, 0)]
+      ], 8);
+      const pts = tf(loc, C, a);
+      petals.push(pts);
+      inks.push(pts);
+      inks.push(tf([P(R * 0.24, 0), P(R * 0.45, R * 0.01), P(R * 0.66, 0)], C, a));
+    }
+    const center = circlePts(C, 24, () => R * 0.17);
+    inks.push(center);
+    for (let k = 0; k < 6; k++) {
+      const a = k * TAU / 6 + rot, rr = R * 0.08;
+      inks.push(circlePts(P(C.x + Math.cos(a) * rr, C.y + Math.sin(a) * rr), 6, () => R * 0.02));
+    }
+    return { petals, center, inks, sil: petals.concat([center]) };
+  }
+
+  function tulipShape(S, R, tilt) {
+    const cup = chain(P(0, 0), [
+      [P(-R * 0.45, 0), P(-R * 0.68, -R * 0.65), P(-R * 0.5, -R * 1.33)],
+      [P(-R * 0.38, -R * 1.07), P(-R * 0.25, -R * 1.0), P(-R * 0.17, -R * 1.05)],
+      [P(-R * 0.1, -R * 1.25), P(-R * 0.05, -R * 1.4), P(0, -R * 1.47)],
+      [P(R * 0.05, -R * 1.4), P(R * 0.1, -R * 1.25), P(R * 0.17, -R * 1.05)],
+      [P(R * 0.25, -R * 1.0), P(R * 0.38, -R * 1.07), P(R * 0.5, -R * 1.33)],
+      [P(R * 0.68, -R * 0.65), P(R * 0.45, 0), P(0, 0)]
+    ], 10);
+    const in1 = bez(P(-R * 0.12, -R * 0.06), P(-R * 0.32, -R * 0.4), P(-R * 0.28, -R * 0.82), P(-R * 0.17, -R * 1.05), 14);
+    const in2 = bez(P(R * 0.12, -R * 0.06), P(R * 0.32, -R * 0.4), P(R * 0.28, -R * 0.82), P(R * 0.17, -R * 1.05), 14);
+    const T = (pts) => tf(pts, S, tilt);
+    return { cup: T(cup), inks: [T(cup), T(in1), T(in2)], center: T([P(0, -R * 0.6)])[0], bottom: T([P(0, -R * 0.3)])[0] };
+  }
+
+  function buildItems() {
+    const W = FW, H = FH, cx = W / 2;
+    const INKW = Math.max(1.1, W * 0.0036);
+    const list = [];
+    const STRUCT = W * 7, FLOW = W * 5.5;
+
+    // giấy gói phía sau
+    const bpoly = paperPoly(cx, H * 0.5, 0.34, 0.03, H, W);
+    list.push(makeItem({
+      g: 'back', inks: [wobble(bpoly, W * 0.0015, 3)], w: INKW * 0.9, speed: STRUCT, area: [bpoly],
+      center: P(cx, H * 0.9), revealR: H * 0.5,
+      wash: (c) => { wcFill(c, bpoly, [236, 178, 196], 11, W * 0.012, 1.1); grain(c, bpoly, [200, 120, 140], 12); }
+    }));
+
+    // thân
+    const heads = FLOWERS.map((f) => {
+      const P3 = P(cx + f.x * W, f.y * H);
+      const P0 = P(cx + f.x * W * 0.08, H * 0.97), P1 = P(cx + f.x * W * 0.05, H * 0.78), P2 = P(cx + f.x * W * 0.75, f.y * H + H * 0.2);
+      return { f, P0, P1, P2, P3 };
+    });
+    heads.forEach((h, i) => {
+      const pts = bez(h.P0, h.P1, h.P2, h.P3, 40);
+      list.push(makeItem({
+        g: 'stem', inks: [wobble(pts, W * 0.0012, 20 + i)], w: INKW, speed: STRUCT, area: [pts],
+        center: h.P0, revealR: Math.hypot(h.P3.x - h.P0.x, h.P3.y - h.P0.y) * 1.05,
+        wash: (c) => wcStroke(c, pts, [118, 166, 130], W * 0.013, 30 + i)
+      }));
+    });
+
+    // lá
+    heads.forEach((h, i) => {
+      [[0.68, 1], [0.82, -1]].forEach(([fr, side], j) => {
+        const p = cubic(h.P0, h.P1, h.P2, h.P3, fr);
+        const d = cubicD(h.P0, h.P1, h.P2, h.P3, fr);
+        const sd = (i + j) % 2 ? side : -side;
+        const ang = Math.atan2(d.y, d.x) + sd * 0.85;
+        const len = W * 0.085;
+        const loc = chain(P(0, 0), [
+          [P(len * 0.3, -len * 0.36), P(len * 0.75, -len * 0.3), P(len, 0)],
+          [P(len * 0.75, len * 0.26), P(len * 0.3, len * 0.32), P(0, 0)]
+        ], 12);
+        const poly = tf(loc, p, ang);
+        const rib = tf(bez(P(len * 0.04, 0), P(len * 0.35, -len * 0.04), P(len * 0.6, -len * 0.03), P(len * 0.88, 0), 10), p, ang);
+        list.push(makeItem({
+          g: 'leaf', inks: [wobble(poly, W * 0.001, 50 + i * 2 + j), rib], w: INKW * 0.9, speed: STRUCT, area: [poly],
+          center: p, revealR: len * 1.1,
+          wash: (c) => { wcFill(c, poly, [128, 172, 138], 60 + i * 2 + j, W * 0.008, 1.3); wcFill(c, scalePts(poly, centroid(poly), 0.5), [92, 140, 108], 70 + i, W * 0.005, 0.9); }
+        }));
+      });
+    });
+
+    // hoa bi
+    SPRIGS.forEach((s, i) => {
+      const tip = P(cx + s.x * W, s.y * H), st = P(cx + s.x * W * 0.1, H * 0.7);
+      const stem = bez(st, P(st.x + (tip.x - st.x) * 0.15, (st.y + tip.y) / 2), P(tip.x - (tip.x - st.x) * 0.1, tip.y + H * 0.08), tip, 24);
+      const r = rng(90 + i);
+      const inks = [stem], dots = [];
+      for (let k = 0; k < 10; k++) {
+        const a = r() * TAU, rr = W * 0.06 * (0.3 + r() * 0.7);
+        const q = P(tip.x + Math.cos(a) * rr, tip.y + Math.sin(a) * rr * 0.8);
+        inks.push([tip, P((tip.x + q.x) / 2 + (r() - 0.5) * 3, (tip.y + q.y) / 2), q]);
+        const dot = circlePts(q, 8, () => W * (0.006 + r() * 0.004));
+        inks.push(dot); dots.push(dot);
+      }
+      list.push(makeItem({
+        g: 'sprig', inks, w: INKW * 0.7, speed: STRUCT, area: [stem].concat(dots),
+        center: tip, revealR: W * 0.12,
+        wash: (c) => { wcStroke(c, stem, [140, 180, 150], W * 0.006, 95 + i); dots.forEach((d, k) => wcFill(c, d, [236, 200, 220], 100 + k, W * 0.004, 1.6)); }
+      }));
+    });
+
+    // giấy gói phía trước
+    const top = H * 0.58;
+    const fpoly = paperPoly(cx, top, 0.27, 0.025, H, W);
+    const fold = [P(cx - W * 0.25, top + H * 0.02), P(cx + W * 0.12, top + H * 0.09), P(cx + W * 0.03, H * 0.985)];
+    const foldPts = bez(fold[0], P(cx - W * 0.1, top + H * 0.05), P(cx + W * 0.05, top + H * 0.08), fold[1], 12)
+      .concat(bez(fold[1], P(cx + W * 0.1, top + H * 0.2), P(cx + W * 0.05, H * 0.8), fold[2], 12).slice(1));
+    const foldPoly = foldPts.concat([P(cx - W * 0.05, H * 0.985), fold[0]]);
+    list.push(makeItem({
+      g: 'front', inks: [wobble(fpoly, W * 0.0015, 7), wobble(foldPts, W * 0.001, 8)], w: INKW, speed: STRUCT,
+      area: [fpoly], sil: [fpoly], center: P(cx, H * 0.8), revealR: H * 0.42,
+      wash: (c) => {
+        base(c, [fpoly]);
+        wcFill(c, fpoly, [244, 200, 214], 13, W * 0.012, 1.1);
+        wcFill(c, foldPoly, [255, 236, 242], 14, W * 0.008, 2);
+        grain(c, fpoly, [200, 120, 140], 15);
+        const r = rng(16);
+        for (let k = 0; k < 9; k++) {
+          const q = P(cx + (r() - 0.5) * W * 0.36, top + H * (0.05 + r() * 0.12));
+          wcFill(c, circlePts(q, 10, () => W * 0.009), [226, 120, 150], 17 + k, W * 0.003, 1.5);
+        }
+      }
+    }));
+
+    // nơ
+    const B = P(cx, H * 0.775), u = W;
+    const loopL = tf(chain(P(0, 0), [[P(-0.1 * u, -0.07 * u), P(-0.13 * u, 0.04 * u), P(0, 0)]], 24), B, 0);
+    const loopR = tf(chain(P(0, 0), [[P(0.1 * u, -0.07 * u), P(0.13 * u, 0.04 * u), P(0, 0)]], 24), B, 0);
+    const tailL = tf(chain(P(0, 0), [[P(-0.02 * u, 0.04 * u), P(-0.04 * u, 0.09 * u), P(-0.06 * u, 0.13 * u)], [P(-0.05 * u, 0.13 * u), P(-0.04 * u, 0.125 * u), P(-0.035 * u, 0.125 * u)], [P(-0.025 * u, 0.09 * u), P(-0.012 * u, 0.04 * u), P(0, 0)]], 10), B, 0);
+    const tailR = tf(chain(P(0, 0), [[P(0.02 * u, 0.04 * u), P(0.04 * u, 0.09 * u), P(0.055 * u, 0.135 * u)], [P(0.065 * u, 0.13 * u), P(0.075 * u, 0.127 * u), P(0.08 * u, 0.125 * u)], [P(0.06 * u, 0.09 * u), P(0.03 * u, 0.04 * u), P(0, 0)]], 10), B, 0);
+    const knot = circlePts(B, 16, () => u * 0.018);
+    const bowParts = [tailL, tailR, loopL, loopR, knot];
+    list.push(makeItem({
+      g: 'bow', inks: bowParts, w: INKW, speed: STRUCT, area: bowParts, sil: bowParts,
+      center: B, revealR: u * 0.17,
+      wash: (c) => {
+        base(c, bowParts);
+        bowParts.forEach((pp, k) => wcFill(c, pp, k === 4 ? [180, 56, 96] : [216, 96, 130], 120 + k, W * 0.006, 1.3));
+        wcFill(c, scalePts(loopL, B, 0.5), [180, 56, 96], 130, W * 0.004, 0.8);
+        wcFill(c, scalePts(loopR, B, 0.5), [180, 56, 96], 131, W * 0.004, 0.8);
+      }
+    }));
+
+    // hoa: phía sau vẽ trước
+    heads.slice().sort((a, b) => a.f.y - b.f.y).forEach((h, i) => {
+      const f = h.f, R = f.s * W, pal = PALS[f.p], seed = 200 + i * 17;
+      const rot = (i * 1.73) % TAU;
+      if (f.k === 'r') {
+        const s = roseShape(h.P3, R, rot, seed);
+        list.push(makeItem({
+          g: 'flower', inks: s.inks.map((p, k) => wobble(p, W * 0.0012, seed + k)), w: INKW * 1.05, speed: FLOW,
+          area: [s.sil], sil: [s.sil], center: h.P3, revealR: R * 1.15,
+          wash: (c) => {
+            base(c, [s.sil]);
+            wcFill(c, s.sil, pal.light, seed, R * 0.09, 1.2);
+            wcFill(c, scalePts(s.sil, h.P3, 0.72), pal.mid, seed + 1, R * 0.07, 1);
+            wcFill(c, scalePts(s.sil, h.P3, 0.4), pal.deep, seed + 2, R * 0.05, 0.9);
+            grain(c, s.sil, pal.deep, seed + 3);
+          }
+        }));
+      } else if (f.k === 'c') {
+        const s = cosmosShape(h.P3, R, f.n, rot, seed);
+        list.push(makeItem({
+          g: 'flower', inks: s.inks.map((p, k) => (p.length > 6 ? wobble(p, W * 0.001, seed + k) : p)), w: INKW, speed: FLOW,
+          area: s.sil, sil: s.sil, center: h.P3, revealR: R * 1.2,
+          wash: (c) => {
+            base(c, s.sil);
+            s.petals.forEach((pp, k) => {
+              wcFill(c, pp, pal.light, seed + k, R * 0.05, 1.3);
+              wcFill(c, scalePts(pp, h.P3, 0.6), pal.mid, seed + 40 + k, R * 0.04, 0.9);
+            });
+            wcFill(c, s.center, [244, 206, 118], seed + 90, R * 0.03, 2);
+            wcFill(c, scalePts(s.center, h.P3, 0.55), [214, 150, 62], seed + 91, R * 0.02, 1.4);
+          }
+        }));
+      } else {
+        const s = tulipShape(h.P3, R, f.tilt);
+        list.push(makeItem({
+          g: 'flower', inks: s.inks.map((p, k) => wobble(p, W * 0.001, seed + k)), w: INKW * 1.05, speed: FLOW,
+          area: [s.cup], sil: [s.cup], center: s.center, revealR: R * 1.2,
+          wash: (c) => {
+            base(c, [s.cup]);
+            wcFill(c, s.cup, pal.light, seed, R * 0.08, 1.3);
+            wcFill(c, scalePts(s.cup, s.bottom, 0.62), pal.mid, seed + 1, R * 0.06, 1);
+            wcFill(c, scalePts(s.cup, s.bottom, 0.3), pal.deep, seed + 2, R * 0.04, 0.8);
+            grain(c, s.cup, pal.deep, seed + 3);
+          }
+        }));
+      }
+    });
+
+    // lịch trình vẽ
+    const at = (g) => list.filter((it) => it.g === g);
+    const setInk = (it, start) => { it.inkStart = start; it.inkEnd = start + it.inkTotal / it.speed; };
+    at('back').forEach((it) => setInk(it, 0.15));
+    at('stem').forEach((it, i) => setInk(it, 0.4 + i * 0.06));
+    at('leaf').forEach((it, i) => setInk(it, 0.85 + i * 0.04));
+    at('sprig').forEach((it, i) => setInk(it, 1.0 + i * 0.1));
+    let tcur = Math.max.apply(null, list.map((it) => it.inkEnd || 0)) + 0.05;
+    at('front').forEach((it) => { setInk(it, tcur); tcur = it.inkEnd + 0.05; });
+    at('bow').forEach((it) => { setInk(it, tcur); tcur = it.inkEnd + 0.05; });
+    at('flower').forEach((it) => { setInk(it, tcur); tcur = it.inkEnd + 0.06; });
+    list.forEach((it) => {
+      it.washStart = it.inkEnd + 0.12;
+      it.washEnd = it.washStart + (it.g === 'flower' ? 1.4 : 1.1);
+      it.seed = Math.round(it.center.x * 7 + it.center.y * 13);
+    });
+    lastEnd = Math.max.apply(null, list.map((it) => it.washEnd));
+    return list;
+  }
+
+  function drawPaper() {
+    const pc = paperC.getContext('2d');
+    const W = FW, H = FH;
+    pc.fillStyle = PAPER; pc.fillRect(0, 0, W, H);
+    const r = rng(7);
+    const n = Math.round(W * H / 28);
+    for (let i = 0; i < n; i++) {
+      pc.fillStyle = 'rgba(120,80,95,' + (0.015 + r() * 0.03) + ')';
+      pc.fillRect(r() * W, r() * H, 1, 1);
+    }
+    pc.lineWidth = 0.6;
+    for (let i = 0; i < 50; i++) {
+      const x = r() * W, y = r() * H, l = 6 + r() * 14, a = r() * TAU;
+      pc.strokeStyle = 'rgba(160,110,125,.07)';
+      pc.beginPath(); pc.moveTo(x, y); pc.quadraticCurveTo(x + Math.cos(a + 0.5) * l * 0.6, y + Math.sin(a + 0.5) * l * 0.6, x + Math.cos(a) * l, y + Math.sin(a) * l); pc.stroke();
+    }
+    const g = pc.createRadialGradient(W / 2, H * 0.45, W * 0.3, W / 2, H * 0.45, W * 0.85);
+    g.addColorStop(0, 'rgba(244,206,218,0)'); g.addColorStop(1, 'rgba(240,186,204,.45)');
+    pc.fillStyle = g; pc.fillRect(0, 0, W, H);
+  }
+
+  function build() {
+    const w = fc.clientWidth, h = fc.clientHeight;
+    if (!w) return false;
+    FW = w; FH = h;
+    DPR = Math.min(2, window.devicePixelRatio || 1);
+    fc.width = Math.round(FW * DPR); fc.height = Math.round(FH * DPR);
+    fx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    [paperC] = layer(); paperC.getContext('2d').setTransform(DPR, 0, 0, DPR, 0, 0);
+    drawPaper();
+    [inkC, ik] = layer();
+    [washC, wk] = layer();
+    items = buildItems();
+    return true;
+  }
+
+  function drawInk(path, to) {
+    const pts = path.pts, cum = path.cum;
+    let i = path.i, last = path.last || pts[0];
+    ik.strokeStyle = INK; ik.lineCap = 'round'; ik.lineJoin = 'round';
+    while (i < pts.length - 1 && cum[i] < to) {
+      const segEnd = Math.min(cum[i + 1], to);
+      const span = cum[i + 1] - cum[i] || 1;
+      const f = (segEnd - cum[i]) / span;
+      const q = P(pts[i].x + (pts[i + 1].x - pts[i].x) * f, pts[i].y + (pts[i + 1].y - pts[i].y) * f);
+      const s = segEnd / (path.len || 1);
+      ik.lineWidth = path.w * (0.35 + 0.65 * Math.sqrt(Math.sin(Math.PI * Math.min(1, 0.04 + s * 0.92))));
+      ik.beginPath(); ik.moveTo(last.x, last.y); ik.lineTo(q.x, q.y); ik.stroke();
+      last = q;
+      if (segEnd >= cum[i + 1]) i++; else break;
+    }
+    path.i = i; path.last = last; path.drawn = to;
+  }
+
+  function blob(ctx, C, r, seed, t) {
+    ctx.beginPath();
+    for (let i = 0; i <= 40; i++) {
+      const a = i / 40 * TAU;
+      const rr = r * (1 + 0.1 * Math.sin(3 * a + seed) + 0.07 * Math.sin(7 * a + seed * 2 + t * 0.8));
+      const x = C.x + Math.cos(a) * rr, y = C.y + Math.sin(a) * rr;
+      if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+    }
+    ctx.closePath();
+  }
+
+  function renderFrame(t) {
+    const W = FW, H = FH;
+    for (const it of items) {
+      if (t < it.inkStart) continue;
+      if (it.silPath && !it.knocked) {
+        ik.save(); ik.globalCompositeOperation = 'destination-out'; ik.fillStyle = '#000'; ik.fill(it.silPath); ik.restore();
+        it.knocked = true;
+      }
+      if (!it.inkDone) {
+        const e = (t - it.inkStart) * it.speed;
+        let all = true;
+        for (const p of it.paths) {
+          const target = Math.max(0, Math.min(p.len, e - p.offset));
+          if (target > p.drawn) drawInk(p, target);
+          if (p.drawn < p.len) all = false;
+        }
+        it.inkDone = all;
+      }
+    }
+    for (const it of items) {
+      if (!it.baked && t >= it.washEnd) { wk.drawImage(it.wc, it.bb.x, it.bb.y, it.bb.w, it.bb.h); it.baked = true; }
+    }
+    fx.clearRect(0, 0, W, H);
+    fx.drawImage(paperC, 0, 0, W, H);
+    fx.drawImage(washC, 0, 0, W, H);
+    for (const it of items) {
+      if (it.baked || t < it.washStart) continue;
+      const p = outCubic(clamp01((t - it.washStart) / (it.washEnd - it.washStart)));
+      if (p <= 0.001) continue;
+      fx.save();
+      blob(fx, it.center, it.revealR * 1.3 * p, it.seed, t);
+      fx.clip();
+      fx.drawImage(it.wc, it.bb.x, it.bb.y, it.bb.w, it.bb.h);
+      fx.restore();
+    }
+    fx.drawImage(inkC, 0, 0, W, H);
+    const sa = clamp01((t - lastEnd + 0.4) / 0.9);
+    if (sa > 0) {
+      fx.save();
+      fx.globalAlpha = sa;
+      fx.fillStyle = '#b8456a';
+      fx.font = '600 ' + Math.round(W * 0.05) + 'px "Dancing Script", "Brush Script MT", cursive';
+      fx.textAlign = 'right';
+      fx.fillText('Lâm · 20.10', W * 0.93, H * 0.955);
+      fx.restore();
+    }
+    if (!celebrated && t > lastEnd) { celebrated = true; if (!reduce) onBloomed(); }
+    return t > lastEnd + 0.6;
+  }
+
+  function loop(now) {
+    if (!running) return;
+    const done = renderFrame((now - t0) / 1000);
+    if (done) { running = false; return; }
+    requestAnimationFrame(loop);
+  }
+  function startPainting() {
+    if (!build()) return;
+    started = true;
+    celebrated = false;
+    if (reduce) { renderFrame(1e4); return; }
+    t0 = performance.now();
+    if (!running) { running = true; requestAnimationFrame(loop); }
+  }
+  let lastSize = '';
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(() => {
+      const key = fc.clientWidth + 'x' + fc.clientHeight;
+      if (!started || key === lastSize || !fc.clientWidth) return;
+      lastSize = key;
+      const wasCelebrated = celebrated;
+      build();
+      celebrated = wasCelebrated;
+      if (!running) renderFrame(running ? (performance.now() - t0) / 1000 : 1e4);
+    }).observe(fc);
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => { if (started && !running) renderFrame(1e4); });
+  }
+
+  /* ================= Chữ hiện từng ký tự ================= */
+  const typed = $('#typed'), signWrap = $('#signWrap'), skip = $('#skip');
+  let typeTimer = null, typing = false;
+
+  function finishTyping() {
+    clearTimeout(typeTimer);
+    typing = false;
+    typed.innerHTML = '';
+    WISH.forEach((txt) => { const p = document.createElement('p'); p.textContent = txt; typed.appendChild(p); });
+    signWrap.classList.add('show');
+    skip.hidden = true;
+  }
+  function startTyping(delay) {
+    clearTimeout(typeTimer);
+    typed.innerHTML = '';
+    signWrap.classList.remove('show');
+    if (reduce) { finishTyping(); return; }
+    skip.hidden = false;
+    typing = true;
+    let pi = 0, ci = 0, para = null;
+    const caret = document.createElement('span');
+    caret.className = 'caret';
+    function newPara() {
+      para = document.createElement('p');
+      para.appendChild(caret);
+      typed.appendChild(para);
+    }
+    function step() {
+      const txt = WISH[pi];
+      if (ci < txt.length) {
+        const ch = txt[ci++];
+        const span = document.createElement('span');
+        span.className = 'ch';
+        span.textContent = ch;
+        para.insertBefore(span, caret);
+        typeTimer = setTimeout(step, ',.!'.includes(ch) ? 300 : 38);
+      } else if (pi < WISH.length - 1) {
+        pi++; ci = 0; newPara();
+        typeTimer = setTimeout(step, 450);
+      } else {
+        caret.remove();
+        typing = false;
+        signWrap.classList.add('show');
+        skip.hidden = true;
+      }
+    }
+    typeTimer = setTimeout(() => { newPara(); step(); }, delay || 0);
+  }
+  typed.addEventListener('click', () => { if (typing) finishTyping(); });
+
+  /* ================= Bokeh, tim, lấp lánh, bướm, cánh hoa rơi ================= */
+  const sky = $('#sky');
+  const sx = sky.getContext('2d');
+  const bokehC = $('#bokeh');
+  const bx = bokehC.getContext('2d');
+  let parts = [], bokeh = [], SW = 0, SH = 0, lastT = 0, heartsOn = false, petalsOn = false, windT = 0;
+  const rnd = Math.random;
+  const pick = (a) => a[(rnd() * a.length) | 0];
+  function sprite(w, h, fn) { const c = document.createElement('canvas'); c.width = w; c.height = h; fn(c.getContext('2d')); return c; }
+
+  const BOKEH = ['255,255,255', '246,176,196', '250,198,214', '238,160,188'].map((rgb) => sprite(128, 128, (g) => {
+    const gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    gr.addColorStop(0, 'rgba(' + rgb + ',.6)'); gr.addColorStop(0.6, 'rgba(' + rgb + ',.25)'); gr.addColorStop(1, 'rgba(' + rgb + ',0)');
+    g.fillStyle = gr; g.fillRect(0, 0, 128, 128);
+  }));
+
+  // cánh hoa: [đầu cánh, giữa, gốc]
+  const PETAL_TONES = [
+    ['#ffe6ee', '#f6aec2', '#e27f9e'], ['#fff0f4', '#f9c0cf', '#ec98b0'], ['#fff5f7', '#fbd3de', '#f0a8bd'],
+    ['#ffe3ec', '#f39cb5', '#d9668b'], ['#fff1ea', '#f9c9b8', '#ec9c88'], ['#fdeef8', '#efc2df', '#d996c2']
+  ];
+  const PETALS = PETAL_TONES.map((t, i) => sprite(64, 64, (g) => {
+    const notch = i % 2 === 0;
+    g.translate(32, 33);
+    g.beginPath();
+    g.moveTo(0, 26);
+    g.bezierCurveTo(-22, 14, -24, -14, notch ? -7 : -10, -26);
+    if (notch) { g.quadraticCurveTo(-3, -22, 0, -18); g.quadraticCurveTo(3, -22, 7, -26); }
+    else g.quadraticCurveTo(0, -31, 10, -26);
+    g.bezierCurveTo(24, -14, 22, 14, 0, 26);
+    g.closePath();
+    const gr = g.createRadialGradient(0, 24, 2, 0, 0, 34);
+    gr.addColorStop(0, t[2]); gr.addColorStop(0.45, t[1]); gr.addColorStop(1, t[0]);
+    g.fillStyle = gr; g.fill();
+    g.strokeStyle = 'rgba(214,110,140,.35)'; g.lineWidth = 1; g.stroke();
+    g.save(); g.clip();
+    g.strokeStyle = 'rgba(255,255,255,.4)'; g.lineWidth = 0.8;
+    for (const dx of [-11, -5, 0, 5, 11]) { g.beginPath(); g.moveTo(0, 24); g.quadraticCurveTo(dx * 0.5, 2, dx, -22); g.stroke(); }
+    const hl = g.createRadialGradient(-8, -8, 0, -8, -8, 18);
+    hl.addColorStop(0, 'rgba(255,255,255,.6)'); hl.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = hl; g.fillRect(-32, -32, 64, 64);
+    const sh = g.createLinearGradient(14, 0, 24, 0);
+    sh.addColorStop(0, 'rgba(200,80,115,0)'); sh.addColorStop(1, 'rgba(200,80,115,.18)');
+    g.fillStyle = sh; g.fillRect(-32, -32, 64, 64);
+    g.restore();
+  }));
+
+  // tim: [sáng, chính, tối]
+  const HEART_TONES = [['#ffe0e8', '#f7a7bd', '#e0708f'], ['#fff0f4', '#f9bccb', '#ea8ba4'], ['#ffd6e1', '#f48fab', '#d55a7e'], ['#fff3f6', '#fbd0dc', '#ef9fb5']];
+  const HEARTS = HEART_TONES.map((t) => sprite(96, 96, (g) => {
+    g.translate(48, 50);
+    const s = 34;
+    g.beginPath();
+    g.moveTo(0, -s * 0.32);
+    g.bezierCurveTo(-s * 0.5, -s * 0.95, -s * 1.15, -s * 0.25, 0, s * 0.68);
+    g.bezierCurveTo(s * 1.15, -s * 0.25, s * 0.5, -s * 0.95, 0, -s * 0.32);
+    g.closePath();
+    g.shadowColor = 'rgba(226,112,145,.45)'; g.shadowBlur = 10;
+    const gr = g.createRadialGradient(-s * 0.35, -s * 0.35, s * 0.05, 0, 0, s * 1.05);
+    gr.addColorStop(0, t[0]); gr.addColorStop(0.5, t[1]); gr.addColorStop(1, t[2]);
+    g.fillStyle = gr; g.fill();
+    g.shadowBlur = 0; g.shadowColor = 'transparent';
+    g.save(); g.clip();
+    g.lineWidth = 6; g.strokeStyle = 'rgba(200,80,115,.2)'; g.stroke();
+    const hl = g.createRadialGradient(-s * 0.4, -s * 0.4, 0, -s * 0.4, -s * 0.4, s * 0.36);
+    hl.addColorStop(0, 'rgba(255,255,255,.95)'); hl.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = hl; g.fillRect(-48, -48, 96, 96);
+    g.fillStyle = 'rgba(255,255,255,.55)';
+    g.beginPath(); g.ellipse(s * 0.36, -s * 0.36, s * 0.1, s * 0.06, 0.6, 0, TAU); g.fill();
+    const rl = g.createRadialGradient(s * 0.15, s * 0.32, 0, s * 0.15, s * 0.32, s * 0.35);
+    rl.addColorStop(0, 'rgba(255,232,240,.4)'); rl.addColorStop(1, 'rgba(255,232,240,0)');
+    g.fillStyle = rl; g.fillRect(-48, -48, 96, 96);
+    g.restore();
+  }));
+
+  const SPARK = sprite(48, 48, (g) => {
+    g.translate(24, 24);
+    const gl = g.createRadialGradient(0, 0, 0, 0, 0, 22);
+    gl.addColorStop(0, 'rgba(255,244,248,.95)'); gl.addColorStop(0.3, 'rgba(255,196,214,.35)'); gl.addColorStop(1, 'rgba(255,196,214,0)');
+    g.fillStyle = gl; g.fillRect(-24, -24, 48, 48);
+    const s = 14;
+    g.fillStyle = '#ffffff';
+    g.beginPath(); g.moveTo(0, -s);
+    g.quadraticCurveTo(0, 0, s, 0); g.quadraticCurveTo(0, 0, 0, s);
+    g.quadraticCurveTo(0, 0, -s, 0); g.quadraticCurveTo(0, 0, 0, -s); g.fill();
+  });
+
+  // cánh bướm (nửa phải, gốc cánh ở x=0)
+  const BFLY = [
+    { deep: '#e07898', mid: '#f6b3c6', light: '#ffe8ef', edge: '#b8456a' },
+    { deep: '#d9567c', mid: '#f39ab3', light: '#ffe0ea', edge: '#9e3456' },
+    { deep: '#c48ad8', mid: '#ebc6f2', light: '#fcf0ff', edge: '#8e5aa8' },
+    { deep: '#ec9a7e', mid: '#f9cdb9', light: '#fff2ea', edge: '#bd6a50' },
+    { deep: '#f2a7bd', mid: '#fbd7e1', light: '#ffffff', edge: '#cf7590' },
+    { deep: '#e88aa8', mid: '#f8c4d3', light: '#fff4f8', edge: '#b04d70' }
+  ].map((c) => sprite(72, 84, (g) => {
+    g.translate(3, 44);
+    const fore = new Path2D('M0 -4 C10 -30 40 -40 60 -32 C66 -22 54 -6 30 2 Q12 4 0 2 Z');
+    const hind = new Path2D('M0 2 C22 0 46 8 44 26 C42 36 28 39 19 35 Q15 45 9 41 Q6 22 0 8 Z');
+    const wings = [[hind, 44, 26, [[42, 18], [34, 32], [20, 34]]], [fore, 60, -32, [[58, -30], [50, -14], [40, -4], [30, -36]]]];
+    for (const [wing, ex, ey, veins] of wings) {
+      const gr = g.createLinearGradient(0, 0, ex, ey);
+      gr.addColorStop(0, c.deep); gr.addColorStop(0.45, c.mid); gr.addColorStop(1, c.light);
+      g.fillStyle = gr; g.fill(wing);
+      g.save(); g.clip(wing);
+      g.globalAlpha = 0.5; g.strokeStyle = c.edge; g.lineWidth = 6; g.stroke(wing);
+      g.globalAlpha = 0.3; g.lineWidth = 0.8;
+      for (const [vx, vy] of veins) { g.beginPath(); g.moveTo(1, 1); g.quadraticCurveTo(vx * 0.5, vy * 0.5 + 3, vx, vy); g.stroke(); }
+      g.globalAlpha = 1;
+      const sh = g.createRadialGradient(ex * 0.4, ey * 0.45, 0, ex * 0.4, ey * 0.45, 22);
+      sh.addColorStop(0, 'rgba(255,255,255,.4)'); sh.addColorStop(1, 'rgba(255,255,255,0)');
+      g.fillStyle = sh; g.fillRect(-5, -50, 80, 100);
+      g.restore();
+      g.strokeStyle = 'rgba(95,47,64,.5)'; g.lineWidth = 0.9; g.stroke(wing);
+    }
+    g.fillStyle = 'rgba(255,255,255,.92)';
+    [[52, -30, 2.2], [57, -24, 1.8], [44, -34, 1.6], [36, 26, 1.8], [28, 33, 1.5]].forEach(([x, y, r]) => { g.beginPath(); g.arc(x, y, r, 0, TAU); g.fill(); });
+  }));
+
+  function sizeSky() {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    SW = window.innerWidth; SH = window.innerHeight;
+    sky.width = Math.round(SW * dpr); sky.height = Math.round(SH * dpr);
+    sx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    bokehC.width = Math.round(SW); bokehC.height = Math.round(SH);
+  }
+  function seedBokeh() {
+    bokeh = Array.from({ length: 12 }, (_, i) => ({
+      x: rnd() * SW, y: rnd() * SH, r: 30 + rnd() * 80,
+      vx: (rnd() - 0.5) * 6, vy: -(3 + rnd() * 7),
+      img: BOKEH[i % BOKEH.length], a: 0.35 + rnd() * 0.45, ph: rnd() * TAU
+    }));
+  }
+  let gardenTimer = null;
+  window.addEventListener('resize', () => {
+    sizeSky();
+    if (reduce) drawSky(0, 0);
+    clearTimeout(gardenTimer);
+    gardenTimer = setTimeout(drawGarden, 200);
+  });
+  sizeSky();
+  seedBokeh();
+
+  function spawn(x, y, burst, kind) {
+    if (kind === 'spark' || (!kind && rnd() < 0.2)) {
+      parts.push({
+        kind: 'spark', x, y, burst,
+        vx: burst ? (rnd() - 0.5) * 320 : 0, vy: burst ? -(90 + rnd() * 240) : -20,
+        size: 10 + rnd() * 14, life: 0, max: burst ? 1.6 + rnd() * 1.4 : 4, ph: rnd() * TAU, rot: rnd() * TAU
+      });
+      return;
+    }
+    const z = burst ? 0.8 + rnd() * 0.4 : 0.55 + rnd() * 0.65;
+    parts.push({
+      kind: 'heart', x, y, burst, z,
+      vx: burst ? (rnd() - 0.5) * 300 : 0,
+      vy: burst ? -(90 + rnd() * 240) : -(20 + rnd() * 25) * z,
+      term: -(22 + rnd() * 22) * z,
+      size: (16 + rnd() * 14) * z, spr: pick(HEARTS),
+      life: 0, max: burst ? 2.6 + rnd() * 1.4 : 18, ph: rnd() * TAU, spin: rnd() * TAU, ws: 0.8 + rnd() * 1.2, rot: 0
+    });
+  }
+  function spawnPetal(mid) {
+    const z = 0.5 + rnd() * 0.7;
+    parts.push({
+      kind: 'petal', x: rnd() * SW, y: mid ? rnd() * SH * 0.35 : -30, z,
+      size: (16 + rnd() * 12) * z, vy: (22 + rnd() * 22) * z + 10, spr: pick(PETALS),
+      rot: rnd() * TAU, vr: (rnd() - 0.5) * 1.4, a1: rnd() * TAU, a2: rnd() * TAU,
+      w1: 1.5 + rnd() * 2, w2: 1 + rnd() * 1.6, life: 0, ph: rnd() * TAU
+    });
+  }
+  function spawnButterfly(x, y, i) {
+    parts.push({
+      kind: 'bfly', x, y, heading: -Math.PI / 2 + (rnd() - 0.5) * 1.8,
+      speed: 50 + rnd() * 30, k: 0.42 + rnd() * 0.2, spr: BFLY[i % BFLY.length],
+      life: 0, ph: rnd() * TAU, fl: rnd() * TAU, glide: false, gt: 1 + rnd(), rot: 0
+    });
+  }
+
+  function updateBfly(p, dt) {
+    p.gt -= dt;
+    if (p.gt < 0) { p.glide = !p.glide; p.gt = p.glide ? 0.35 + rnd() * 0.7 : 0.9 + rnd() * 1.8; }
+    p.fl += dt * (p.glide ? 3 : 14);
+    const m = 70;
+    let steer = Math.sin(p.life * 0.9 + p.ph) * 1.1 + Math.sin(p.life * 2.3 + p.ph * 2) * 0.6;
+    if (p.x < m || p.x > SW - m || p.y < m || p.y > SH - m) {
+      let d = Math.atan2(SH / 2 - p.y, SW / 2 - p.x) - p.heading;
+      d = Math.atan2(Math.sin(d), Math.cos(d));
+      steer += d * 2.4;
+    }
+    p.heading += steer * dt;
+    const sp = p.speed * (p.glide ? 0.7 : 1);
+    p.x += Math.cos(p.heading) * sp * dt;
+    p.y += Math.sin(p.heading) * sp * dt + (p.glide ? 14 : -4 + Math.sin(p.fl) * 16) * dt;
+    p.rot = p.heading + Math.PI / 2 + Math.sin(p.life * 2 + p.ph) * 0.12;
+  }
+  function drawBfly(p) {
+    const ang = p.glide ? 0.45 + 0.12 * Math.sin(p.fl) : 0.75 + 0.62 * Math.sin(p.fl);
+    const flap = Math.max(0.1, Math.cos(ang));
+    const k = p.k;
+    sx.shadowColor = 'rgba(150,60,90,.22)'; sx.shadowBlur = 8; sx.shadowOffsetY = 6;
+    for (const side of [1, -1]) {
+      sx.save(); sx.scale(side * flap, 1);
+      sx.drawImage(p.spr, -3 * k, -44 * k, 72 * k, 84 * k);
+      sx.restore();
+    }
+    sx.shadowColor = 'transparent'; sx.shadowBlur = 0; sx.shadowOffsetY = 0;
+    const bg = sx.createLinearGradient(-3 * k, 0, 3 * k, 0);
+    bg.addColorStop(0, '#3e1f2b'); bg.addColorStop(0.5, '#86506a'); bg.addColorStop(1, '#3e1f2b');
+    sx.fillStyle = bg;
+    sx.beginPath(); sx.ellipse(0, -6 * k, 3 * k, 6 * k, 0, 0, TAU); sx.fill();
+    sx.beginPath(); sx.ellipse(0, 12 * k, 2.3 * k, 13 * k, 0, 0, TAU); sx.fill();
+    sx.beginPath(); sx.arc(0, -14 * k, 2.6 * k, 0, TAU); sx.fill();
+    sx.strokeStyle = '#3e1f2b'; sx.lineWidth = 1;
+    for (const sd of [-1, 1]) {
+      sx.beginPath(); sx.moveTo(sd * k, -16 * k); sx.quadraticCurveTo(sd * 5 * k, -28 * k, sd * 10 * k, -33 * k); sx.stroke();
+      sx.beginPath(); sx.arc(sd * 10 * k, -33 * k, 1.4 * k + 0.4, 0, TAU); sx.fill();
+    }
+  }
+
+  function drawSky(time, dt) {
+    sx.clearRect(0, 0, SW, SH);
+    bx.clearRect(0, 0, SW, SH);
+    for (const b of bokeh) {
+      b.x += b.vx * dt; b.y += b.vy * dt;
+      if (b.y < -b.r) { b.y = SH + b.r; b.x = rnd() * SW; }
+      if (b.x < -b.r) b.x = SW + b.r; else if (b.x > SW + b.r) b.x = -b.r;
+      bx.globalAlpha = b.a * (0.75 + 0.25 * Math.sin(time * 0.6 + b.ph));
+      bx.drawImage(b.img, b.x - b.r, b.y - b.r, b.r * 2, b.r * 2);
+    }
+    bx.globalAlpha = 1;
+    const wind = Math.sin(windT * 0.23) * 22 + Math.sin(windT * 0.71 + 1) * 12;
+    parts = parts.filter((p) => {
+      p.life += dt;
+      let a;
+      if (p.kind === 'bfly') {
+        updateBfly(p, dt);
+        a = Math.min(1, p.life * 1.5);
+      } else if (p.kind === 'petal') {
+        p.x += (wind * p.z + Math.sin(p.life * 1.3 + p.ph) * 26 * p.z) * dt;
+        p.y += p.vy * dt * (0.75 + 0.35 * Math.abs(Math.cos(p.a1)));
+        p.rot += p.vr * dt; p.a1 += p.w1 * dt; p.a2 += p.w2 * dt;
+        if (p.y > SH + 40) return false;
+        a = Math.min(1, p.life * 2) * (0.55 + 0.45 * (p.z - 0.5) / 0.7);
+      } else {
+        p.vx -= p.vx * 1.8 * dt;
+        p.vy += ((p.term || -30) - p.vy) * 1.1 * dt;
+        p.x += p.vx * dt + Math.sin(p.life * 1.1 + p.ph) * 18 * (p.z || 1) * dt;
+        p.y += p.vy * dt;
+        if (p.kind === 'heart') { p.spin += p.ws * dt; p.rot = Math.sin(p.life * 1.6 + p.ph) * 0.22; }
+        else p.rot += dt * 1.2;
+        if (p.life > p.max || p.y < -50) return false;
+        a = Math.min(1, p.life * 3) * clamp01(1 - p.life / p.max) * clamp01((p.y + 50) / (SH * 0.25));
+        if (p.kind === 'heart') a *= 0.6 + 0.35 * p.z;
+      }
+      sx.save();
+      sx.globalAlpha = a;
+      sx.translate(p.x, p.y); sx.rotate(p.rot);
+      if (p.kind === 'bfly') drawBfly(p);
+      else if (p.kind === 'petal') {
+        const c2 = Math.cos(p.a2), c1 = Math.cos(p.a1);
+        sx.scale(Math.sign(c2 || 1) * Math.max(0.18, Math.abs(c2)), Math.sign(c1 || 1) * Math.max(0.35, Math.abs(c1)));
+        sx.drawImage(p.spr, -p.size / 2, -p.size / 2, p.size, p.size);
+      } else if (p.kind === 'heart') {
+        sx.scale(0.3 + 0.7 * Math.abs(Math.cos(p.spin)), 1);
+        const s = p.size * 2.34;
+        sx.drawImage(p.spr, -s / 2, -s / 2, s, s);
+      } else {
+        const s = p.size * (0.6 + 0.4 * Math.sin(p.life * 7 + p.ph));
+        sx.drawImage(SPARK, -s / 2, -s / 2, s, s);
+      }
+      sx.restore();
+      return true;
+    });
+  }
+
+  function skyLoop(now) {
+    const dt = Math.min(0.05, (now - (lastT || now)) / 1000);
+    lastT = now; windT += dt;
+    let hearts = 0, petals = 0;
+    for (const p of parts) { if (p.kind === 'petal') petals++; else if (p.kind === 'heart' && !p.burst) hearts++; }
+    if (heartsOn && hearts < (SW < 600 ? 10 : 22) && rnd() < 0.08) spawn(rnd() * SW, SH + 20, false, 'heart');
+    if (petalsOn && petals < 22 && rnd() < 0.07) spawnPetal();
+    drawSky(now / 1000, dt);
+    requestAnimationFrame(skyLoop);
+  }
+  if (reduce) drawSky(0, 0); else requestAnimationFrame(skyLoop);
+
+  function burst(x, y, n, kind) { if (reduce) return; for (let k = 0; k < n; k++) spawn(x, y, true, kind); }
+
+  let seqTimers = [];
+  function onBloomed() {
+    seqTimers.forEach(clearTimeout); seqTimers = [];
+    const r = fc.getBoundingClientRect();
+    const cxp = r.left + r.width / 2, cyp = r.top + r.height * 0.35;
+    for (let k = 0; k < 24; k++) {
+      spawn(r.left + r.width * (0.2 + rnd() * 0.6), r.top + r.height * (0.12 + rnd() * 0.35), true, 'spark');
+    }
+    // 1. bướm bay ra từ bức tranh
+    const have = parts.filter((p) => p.kind === 'bfly').length;
+    for (let k = have; k < 6; k++) {
+      seqTimers.push(setTimeout(() => spawnButterfly(cxp + (rnd() - 0.5) * r.width * 0.4, cyp + (rnd() - 0.5) * r.height * 0.2, k), (k - have) * 280));
+    }
+    // 2. cánh hoa rơi
+    seqTimers.push(setTimeout(() => { petalsOn = true; for (let k = 0; k < 10; k++) spawnPetal(true); }, 2200));
+    // 3. tim bay lên
+    seqTimers.push(setTimeout(() => {
+      heartsOn = true;
+      const waveN = SW < 600 ? 14 : 30;
+      for (let k = 0; k < waveN; k++) {
+        seqTimers.push(setTimeout(() => {
+          spawn(rnd() * SW, SH + 24, false, 'heart');
+          const h = parts[parts.length - 1];
+          h.vy = -(70 + rnd() * 50) * h.z; h.term = -(40 + rnd() * 25) * h.z; h.size *= 1.15;
+        }, k * 90));
+      }
+    }, 4600));
+  }
+
+  /* ================= Mở thiệp ================= */
+  const intro = $('#intro'), stage = $('#stage'), env = $('#envelope');
+  let opened = false;
+
+  function showStage() {
+    intro.hidden = true;
+    stage.hidden = false;
+    startPainting();
+    lastSize = fc.clientWidth + 'x' + fc.clientHeight;
+    startTyping(reduce ? 0 : 1800);
+  }
+  env.addEventListener('click', () => {
+    if (opened) return;
+    opened = true;
+    env.setAttribute('aria-expanded', 'true');
+    if (reduce) { showStage(); return; }
+    env.classList.add('open');
+    setTimeout(() => {
+      const r = env.getBoundingClientRect();
+      burst(r.left + r.width / 2, r.top + r.height * 0.3, 22, 'heart');
+      burst(r.left + r.width / 2, r.top + r.height * 0.3, 14, 'spark');
+    }, 650);
+    setTimeout(() => intro.classList.add('leaving'), 1600);
+    setTimeout(showStage, 2250);
+  });
+
+  document.addEventListener('pointerdown', (e) => {
+    if (!opened || e.target.closest('button')) return;
+    burst(e.clientX, e.clientY, 6);
+  });
+
+  $('#replay').addEventListener('click', () => {
+    startPainting();
+    startTyping(reduce ? 0 : 1600);
+  });
+})();
+</script>
+</body>
+</html>
