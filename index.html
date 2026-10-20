@@ -68,7 +68,7 @@
   #bokeh, #sky { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
   #sky { z-index: 2; }
   .page {
-    position: relative; z-index: 1;
+    position: relative;
     min-height: 100%;
     display: grid; place-items: center;
     padding-block: 32px;
@@ -78,7 +78,7 @@
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
   /* ---------- Phong thư ---------- */
-  .intro { display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center; }
+  .intro { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center; }
   .intro > * { animation: enter .9s cubic-bezier(.2, .8, .2, 1) both; }
   .intro > :nth-child(2) { animation-delay: .12s; }
   .intro > :nth-child(3) { animation-delay: .24s; }
@@ -241,7 +241,7 @@
   @keyframes ring { to { transform: translate(-50%, -50%) scale(1.5); opacity: 0; } }
 
   .letter {
-    position: relative; min-width: 0; width: 100%; max-width: 34rem; justify-self: center; box-sizing: border-box;
+    position: relative; z-index: 3; min-width: 0; width: 100%; max-width: 34rem; justify-self: center; box-sizing: border-box;
     background: var(--paper);
     border-radius: 3px;
     box-shadow: 0 1px 0 rgba(75, 39, 51, .05), 0 22px 44px -22px rgba(194, 77, 112, .45);
