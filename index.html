@@ -4,9 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Một bó hoa nhỏ tặng cậu nhân ngày 20/10.">
+<meta name="theme-color" content="#fbdfe8">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://noway165.github.io/hoa_2010/">
 <meta property="og:title" content="Có thư cho cậu nè 💌">
 <meta property="og:description" content="Mở phong thư để nhận hoa 20/10 nha!">
-<meta name="theme-color" content="#fbdfe8">
+<meta property="og:image" content="https://noway165.github.io/hoa_2010/preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Bức tranh bó hoa màu nước và lá thư chúc mừng 20/10">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://noway165.github.io/hoa_2010/preview.jpg">
 <style>
   :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
   body { margin: 0; }
@@ -194,6 +202,44 @@
     box-shadow: 0 2px 6px rgba(75, 39, 51, .06), 0 26px 50px -24px rgba(194, 77, 112, .5);
   }
 
+  .paint-hint {
+    position: absolute; z-index: 3; left: 14px; bottom: 16px; margin: 0;
+    padding: 6px 12px; border-radius: 999px;
+    background: rgba(255, 247, 249, .94); color: var(--rose);
+    font-size: .78rem; white-space: nowrap;
+    box-shadow: 0 4px 14px -6px rgba(194, 77, 112, .5);
+    animation: hintBob 2.2s ease-in-out infinite; pointer-events: none;
+  }
+  @keyframes hintBob { 50% { transform: translateY(-3px); } }
+  .bubble {
+    position: absolute; z-index: 4; box-sizing: border-box;
+    width: max-content; max-width: min(220px, 72%);
+    padding: 10px 14px; border-radius: 14px;
+    background: var(--paper); color: var(--ink);
+    font-size: .9rem; line-height: 1.45; text-align: center; text-wrap: balance;
+    box-shadow: 0 12px 30px -10px rgba(194, 77, 112, .6);
+    transform: translate(-50%, calc(-100% - 12px));
+    transform-origin: 50% 100%;
+    animation: pop .4s cubic-bezier(.2, 1.4, .4, 1) both;
+    pointer-events: none;
+  }
+  .bubble::after {
+    content: ""; position: absolute; left: 50%; bottom: -6px; width: 12px; height: 12px; margin-left: -6px;
+    background: var(--paper); transform: rotate(45deg);
+  }
+  .bubble.below { transform: translate(-50%, 12px); transform-origin: 50% 0; }
+  .bubble.below::after { bottom: auto; top: -6px; }
+  .bubble b { color: var(--rose); font-weight: 500; }
+  @keyframes pop { from { opacity: 0; scale: .7; } }
+  .ring {
+    position: absolute; z-index: 3; border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, .95);
+    box-shadow: 0 0 18px rgba(255, 180, 205, .9), inset 0 0 12px rgba(255, 200, 220, .8);
+    transform: translate(-50%, -50%) scale(.6);
+    animation: ring .8s ease-out forwards; pointer-events: none;
+  }
+  @keyframes ring { to { transform: translate(-50%, -50%) scale(1.5); opacity: 0; } }
+
   .letter {
     position: relative; min-width: 0; width: 100%; max-width: 34rem; justify-self: center; box-sizing: border-box;
     background: var(--paper);
@@ -298,7 +344,9 @@
 
   <section class="stage" id="stage" hidden>
     <div class="bouquet">
-      <canvas id="flowers" role="img" aria-label="Bức tranh bó hoa hồng, tulip và hoa cúc, vẽ nét mực rồi tô màu nước"></canvas>
+      <canvas id="flowers" role="img" aria-label="Bức tranh bó hoa hồng, tulip và hoa cúc, vẽ nét mực rồi tô màu nước. Chạm vào từng bông để đọc lời chúc riêng."></canvas>
+      <p class="paint-hint" id="paintHint" hidden>Chạm vào từng bông hoa nha</p>
+      <div class="bubble" id="bubble" role="status" hidden></div>
     </div>
     <article class="letter">
       <p class="eyebrow">Thứ Ba, 20 tháng 10 năm 2026</p>
@@ -480,14 +528,14 @@
     { light: [241, 162, 184], mid: [222, 104, 140], deep: [180, 56, 96] }
   ];
   const FLOWERS = [
-    { k: 't', x: -0.33, y: 0.25, s: 0.095, p: 3, tilt: -0.28 },
-    { k: 'r', x: 0.02,  y: 0.18, s: 0.13,  p: 2 },
-    { k: 'c', x: 0.17,  y: 0.29, s: 0.14,  p: 0, n: 8 },
-    { k: 'r', x: -0.15, y: 0.30, s: 0.13,  p: 4 },
-    { k: 't', x: 0.33,  y: 0.41, s: 0.105, p: 1, tilt: 0.3 },
-    { k: 'c', x: -0.31, y: 0.43, s: 0.11,  p: 1, n: 7 },
-    { k: 'r', x: -0.04, y: 0.45, s: 0.115, p: 0 },
-    { k: 'c', x: 0.19,  y: 0.49, s: 0.10,  p: 3, n: 6 }
+    { k: 't', x: -0.33, y: 0.25, s: 0.095, p: 3, tilt: -0.28, msg: 'chúc cậu ngủ đủ giấc, sáng nào dậy cũng tươi.' },
+    { k: 'r', x: 0.02,  y: 0.18, s: 0.13,  p: 2, msg: 'chúc cậu luôn xinh, chụp kiểu nào cũng đẹp.' },
+    { k: 'c', x: 0.17,  y: 0.29, s: 0.14,  p: 0, n: 8, msg: 'chúc cậu ăn gì cũng ngon, ăn hoài không lo gì.' },
+    { k: 'r', x: -0.15, y: 0.30, s: 0.13,  p: 4, msg: 'chúc cậu deadline nào cũng xong sớm.' },
+    { k: 't', x: 0.33,  y: 0.41, s: 0.105, p: 1, tilt: 0.3, msg: 'chúc cậu đi đâu cũng gặp người tốt.' },
+    { k: 'c', x: -0.31, y: 0.43, s: 0.11,  p: 1, n: 7, msg: 'chúc cậu thi đâu đậu đó, điểm cao vèo vèo.' },
+    { k: 'r', x: -0.04, y: 0.45, s: 0.115, p: 0, msg: 'chúc cậu lúc nào cũng có chuyện để cười.' },
+    { k: 'c', x: 0.19,  y: 0.49, s: 0.10,  p: 3, n: 6, msg: 'chúc cậu luôn khỏe, không ốm vặt.' }
   ];
   const SPRIGS = [{ x: -0.42, y: 0.31 }, { x: 0.42, y: 0.25 }, { x: 0.28, y: 0.1 }, { x: -0.2, y: 0.08 }];
 
@@ -788,7 +836,7 @@
         const s = roseShape(h.P3, R, rot, seed);
         list.push(makeItem({
           g: 'flower', inks: s.inks.map((p, k) => wobble(p, W * 0.0012, seed + k)), w: INKW * 1.05, speed: FLOW,
-          area: [s.sil], sil: [s.sil], center: h.P3, revealR: R * 1.15,
+          area: [s.sil], sil: [s.sil], center: h.P3, revealR: R * 1.15, msg: f.msg, R,
           wash: (c) => {
             base(c, [s.sil]);
             wcFill(c, s.sil, pal.light, seed, R * 0.09, 1.2);
@@ -801,7 +849,7 @@
         const s = cosmosShape(h.P3, R, f.n, rot, seed);
         list.push(makeItem({
           g: 'flower', inks: s.inks.map((p, k) => (p.length > 6 ? wobble(p, W * 0.001, seed + k) : p)), w: INKW, speed: FLOW,
-          area: s.sil, sil: s.sil, center: h.P3, revealR: R * 1.2,
+          area: s.sil, sil: s.sil, center: h.P3, revealR: R * 1.2, msg: f.msg, R,
           wash: (c) => {
             base(c, s.sil);
             s.petals.forEach((pp, k) => {
@@ -816,7 +864,7 @@
         const s = tulipShape(h.P3, R, f.tilt);
         list.push(makeItem({
           g: 'flower', inks: s.inks.map((p, k) => wobble(p, W * 0.001, seed + k)), w: INKW * 1.05, speed: FLOW,
-          area: [s.cup], sil: [s.cup], center: s.center, revealR: R * 1.2,
+          area: [s.cup], sil: [s.cup], center: s.center, revealR: R * 1.2, msg: f.msg, R: R * 0.85,
           wash: (c) => {
             base(c, [s.cup]);
             wcFill(c, s.cup, pal.light, seed, R * 0.08, 1.3);
@@ -959,7 +1007,7 @@
       fx.fillText('Lâm · 20.10', W * 0.93, H * 0.955);
       fx.restore();
     }
-    if (!celebrated && t > lastEnd) { celebrated = true; if (!reduce) onBloomed(); }
+    if (!celebrated && t > lastEnd) { celebrated = true; showPaintHint(); if (!reduce) onBloomed(); }
     return t > lastEnd + 0.6;
   }
 
@@ -984,6 +1032,7 @@
       if (!started || key === lastSize || !fc.clientWidth) return;
       lastSize = key;
       const wasCelebrated = celebrated;
+      document.getElementById('bubble').hidden = true;
       build();
       celebrated = wasCelebrated;
       if (!running) renderFrame(running ? (performance.now() - t0) / 1000 : 1e4);
@@ -1389,11 +1438,77 @@
   });
 
   document.addEventListener('pointerdown', (e) => {
-    if (!opened || e.target.closest('button')) return;
+    if (!opened || e.target.closest('button') || e.target === fc) return;
     burst(e.clientX, e.clientY, 6);
   });
 
+  /* ================= Chạm vào hoa: lời chúc ẩn ================= */
+  const bubble = $('#bubble'), paintHint = $('#paintHint'), bouquetEl = $('.bouquet');
+  const TILT = 1.2 * Math.PI / 180;
+  let bubbleTimer = null, tappedOnce = false;
+  function showPaintHint() { if (!tappedOnce) paintHint.hidden = false; }
+  function localPoint(e) {
+    const r = fc.getBoundingClientRect();
+    const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+    return P(FW / 2 + dx * Math.cos(TILT) - dy * Math.sin(TILT), FH / 2 + dx * Math.sin(TILT) + dy * Math.cos(TILT));
+  }
+  function toBouquet(p) {
+    const dx = p.x - FW / 2, dy = p.y - FH / 2;
+    return P(FW / 2 + dx * Math.cos(-TILT) - dy * Math.sin(-TILT), FH / 2 + dx * Math.sin(-TILT) + dy * Math.cos(-TILT));
+  }
+  function flowerAt(p) {
+    for (let i = items.length - 1; i >= 0; i--) {
+      const it = items[i];
+      if (it.g === 'flower' && Math.hypot(p.x - it.center.x, p.y - it.center.y) < it.R * 1.05) return it;
+    }
+    return null;
+  }
+  fc.addEventListener('pointermove', (e) => {
+    fc.style.cursor = celebrated && flowerAt(localPoint(e)) ? 'pointer' : '';
+  });
+  fc.addEventListener('click', (e) => {
+    if (!celebrated) return;
+    const it = flowerAt(localPoint(e));
+    if (!it) { burst(e.clientX, e.clientY, 5); return; }
+    tappedOnce = true;
+    paintHint.hidden = true;
+    const R = it.R, c = toBouquet(it.center);
+    const ring = document.createElement('span');
+    ring.className = 'ring';
+    ring.style.left = c.x + 'px'; ring.style.top = c.y + 'px';
+    ring.style.width = ring.style.height = (R * 2.1) + 'px';
+    bouquetEl.appendChild(ring);
+    setTimeout(() => ring.remove(), 900);
+
+    bubble.innerHTML = '';
+    const b = document.createElement('b'); b.textContent = 'Bông này ';
+    bubble.appendChild(b);
+    bubble.appendChild(document.createTextNode(it.msg));
+    const br = bouquetEl.getBoundingClientRect();
+    const below = br.top + c.y - R * 0.9 < 96;
+    bubble.classList.toggle('below', below);
+    bubble.style.left = Math.max(110, Math.min(FW - 110, c.x)) + 'px';
+    bubble.style.top = (below ? c.y + R * 0.9 : c.y - R * 0.9) + 'px';
+    bubble.hidden = false;
+    bubble.style.animation = 'none'; void bubble.offsetWidth; bubble.style.animation = '';
+    clearTimeout(bubbleTimer);
+    bubbleTimer = setTimeout(() => { bubble.hidden = true; }, 4200);
+
+    const px = br.left + c.x, py = br.top + c.y;
+    burst(px, py, 8, 'spark');
+    if (!reduce) {
+      for (let k = 0; k < 6; k++) {
+        spawnPetal(true);
+        const p = parts[parts.length - 1];
+        p.x = px + (rnd() - 0.5) * R; p.y = py + (rnd() - 0.5) * R * 0.6;
+        p.vy = 18 + rnd() * 20; p.size *= 0.9;
+      }
+    }
+  });
+
   $('#replay').addEventListener('click', () => {
+    paintHint.hidden = true;
+    bubble.hidden = true;
     startPainting();
     startTyping(reduce ? 0 : 1600);
   });
